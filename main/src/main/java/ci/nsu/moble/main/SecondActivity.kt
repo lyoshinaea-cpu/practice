@@ -6,8 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.StringRes // Добавлен импорт
-import androidx.compose.foundation.layout.Box
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +23,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ci.nsu.moble.main.ui.theme.PracticeTheme
+import ci.nsu.moble.main.ui.Screens.HomeScreen
+import ci.nsu.moble.main.ui.Screens.ScreenOneContent
+import ci.nsu.moble.main.ui.Screens.ScreenTwoContent
 
 
 enum class LunchTrayScreen(@StringRes val title: Int) {
@@ -117,21 +118,16 @@ fun SecondActivityScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(LunchTrayScreen.Start.name) {
-                ScreenContent("Start Content")
+                HomeScreen()
             }
+
             composable(LunchTrayScreen.Entree.name) {
-                ScreenContent("Entree Selection")
+                ScreenOneContent()
             }
+
             composable(LunchTrayScreen.SideDish.name) {
-                ScreenContent("Side Dish Selection")
+                ScreenTwoContent()
             }
         }
-    }
-}
-
-@Composable
-fun ScreenContent(text: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = text)
     }
 }
