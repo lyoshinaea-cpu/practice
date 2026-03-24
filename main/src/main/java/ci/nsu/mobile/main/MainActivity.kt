@@ -24,22 +24,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyScreen(
-    viewModel: CounterViewModel = viewModel()
-) {
+fun MyScreen(viewModel: CounterViewModel = viewModel()) {
     val uiState by viewModel.uiState .collectAsStateWithLifecycle()
 
     Column {
         Text(text = "Счет: ${uiState.count}")
 
         Button(onClick = { viewModel.increment() }) {
-            Text("Кнопка")
+            Text("+")
         }
         Button(onClick = { viewModel.decrement() }) {
-            Text("Кнопка2")
+            Text("-")
         }
         Button(onClick = { viewModel.reset() }) {
-            Text("Кнопка3")
+            Text("Сброс")
         }
+        Text(text = "Последние 5: ${uiState.history.joinToString()}")
     }
 }

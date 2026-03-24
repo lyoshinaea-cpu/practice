@@ -42,7 +42,7 @@ class CounterViewModel : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(
                 count = 0,
-                history = listOf("Сброс")
+                history = listOf("Сброс") + currentState.history.take(4)
             )
         }
     }
