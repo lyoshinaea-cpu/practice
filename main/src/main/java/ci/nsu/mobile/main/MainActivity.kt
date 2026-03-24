@@ -38,5 +38,8 @@ fun MyScreen(
         Button(onClick = { viewModel.decrement() }) {
             Text("Кнопка2")
         }
+        Button(onClick = { viewModel.reset() }) {
+            Text("Кнопка3")
+        }
     }
 }

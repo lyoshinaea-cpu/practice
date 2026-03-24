@@ -39,6 +39,11 @@ class CounterViewModel : ViewModel() {
     }
 
     fun reset() {
-        // TODO: реализовать
+        _uiState.update { currentState ->
+            currentState.copy(
+                count = 0,
+                history = listOf("Сброс")
+            )
+        }
     }
 }
