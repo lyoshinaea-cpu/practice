@@ -13,11 +13,9 @@ data class CounterUiState(
 )
 
 class CounterViewModel : ViewModel() {
-    // StateFlow для UiState
     private val _uiState = MutableStateFlow(CounterUiState())
     val uiState: StateFlow<CounterUiState> = _uiState.asStateFlow()
 
-    // Методы для изменения состояния
     fun increment() {
         _uiState.update { currentState ->
             val newCount = currentState.count + 1
@@ -30,7 +28,14 @@ class CounterViewModel : ViewModel() {
     }
 
     fun decrement() {
-        // TODO: реализовать аналогично increment()
+        _uiState.update { currentState ->
+            val newCount = currentState.count - 1
+            val newHistory = listOf("-1 (итого: $newCount)") + currentState.history.take(4)
+            currentState.copy(
+                count = newCount,
+                history = newHistory
+            )
+        }
     }
 
     fun reset() {
