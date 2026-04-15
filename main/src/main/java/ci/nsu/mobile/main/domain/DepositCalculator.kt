@@ -1,6 +1,9 @@
 package ci.nsu.mobile.main.domain
 
 import ci.nsu.mobile.main.data.local.DepositCalculation
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 class DepositCalculator {
@@ -29,12 +32,12 @@ class DepositCalculator {
 
         return DepositCalculation(
             initialAmount = initialAmount,
-            periodMonths = months,
-            interestRate = rate,
-            monthlyTopUp = if (monthlyTopUp > 0) monthlyTopUp else null,
+            months = months,
+            rate = rate,
+            monthlyTopUp = monthlyTopUp,
             finalAmount = (currentAmount * 100).roundToInt() / 100.0,
-            interestEarned = (interestEarned * 100).roundToInt() / 100.0,
-            calculationDate = System.currentTimeMillis()
+            profit = (interestEarned * 100).roundToInt() / 100.0,
+            date = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date())
         )
     }
 }

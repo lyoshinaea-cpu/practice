@@ -1,42 +1,39 @@
 package ci.nsu.mobile.main
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import ci.nsu.mobile.main.data.local.DepositCalculation
 import ci.nsu.mobile.main.data.local.DepositRepository
-import ci.nsu.mobile.main.domain.DepositCalculator
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
-class DepositViewModel(
-    private val repository: DepositRepository,
-    private val calculator: DepositCalculator = DepositCalculator()
-) : ViewModel() {
+class DepositViewModel(private val repository: DepositRepository) : ViewModel() {
 
     val allCalculations: StateFlow<List<DepositCalculation>> = repository.allCalculations
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun calculateAndSave(amount: Double, months: Int, topUp: Double) {
+    fun calculateAndSave(amount: Double, months: Int, topUp: Double, rate: Double) {
         viewModelScope.launch {
-            val result = calculator.calculate(amount, months, topUp)
-            repository.insert(result)
+            val interest = amount * (rate / 100) * (months.toDouble() / 12)
+            val final = amount + interest + (topUp * months)
+
+            val newRecord = DepositCalculation(
+                initialAmount = amount,
+                months = months,
+                rate = rate,
+                monthlyTopUp = topUp,
+                finalAmount = final,
+                profit = interest,
+                date = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date())
+            )
+            repository.insert(newRecord)
         }
     }
 
     class Factory(private val repository: DepositRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(DepositViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return DepositViewModel(repository) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
+            return DepositViewModel(repository) as T
         }
     }
 }

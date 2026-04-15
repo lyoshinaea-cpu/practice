@@ -3,14 +3,14 @@ package ci.nsu.mobile.main.data.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "deposit_calculations")
+@Entity(tableName = "deposits")
 data class DepositCalculation(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val initialAmount: Double,
-    val periodMonths: Int,
-    val interestRate: Double,
-    val monthlyTopUp: Double?,
+    val months: Int,
+    val rate: Double,
+    val monthlyTopUp: Double,
     val finalAmount: Double,
-    val interestEarned: Double,
-    val calculationDate: Long
+    val profit: Double,
+    val date: String
 )
