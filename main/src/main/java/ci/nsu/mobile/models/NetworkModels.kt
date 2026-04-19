@@ -32,3 +32,8 @@ data class UserDto(
     val login: String,
     val token: String? = null
 )
+
+data class LoginRequest(
+    val login: String,
+    val password: String
+)

@@ -9,12 +9,16 @@ class AuthInterceptor(private val context: Context) : Interceptor {
         val originalRequest = chain.request()
         val requestBuilder = originalRequest.newBuilder()
 
+        // Получаем токен из SharedPreferences
         val token = TokenManager.getToken(context)
 
+        // Стандартные заголовки для работы с JSON
         requestBuilder.addHeader("Content-Type", "application/json")
+        requestBuilder.addHeader("Accept", "application/json")
 
-        token?.let {
-            requestBuilder.addHeader("Authorization", "Bearer $it")
+        // Добавляем токен, только если он существует
+        if (!token.isNullOrBlank()) {
+            requestBuilder.addHeader("Authorization", "Bearer $token")
         }
 
         return chain.proceed(requestBuilder.build())

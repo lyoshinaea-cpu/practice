@@ -47,11 +47,16 @@ class AuthRepository(private val context: Context) {
         try {
             val response = apiService.getGroups()
             if (response.isSuccessful) {
+                android.util.Log.d("API_TEST", "Группы успешно получены: ${response.body()?.size}")
                 Result.success(response.body() ?: emptyList())
             } else {
-                Result.failure(Exception("Не удалось загрузить группы"))
+                // ЭТО ВЫВЕДЕТ КОД ОШИБКИ (например 401 или 404)
+                android.util.Log.e("API_TEST", "Ошибка сервера: ${response.code()} ${response.errorBody()?.string()}")
+                Result.failure(Exception("Код ошибки: ${response.code()}"))
             }
         } catch (e: Exception) {
+            // ЭТО ВЫВЕДЕТ ОШИБКУ ПОДКЛЮЧЕНИЯ (например Connection Refused)
+            android.util.Log.e("API_TEST", "Критическая ошибка сети!", e)
             Result.failure(e)
         }
     }
