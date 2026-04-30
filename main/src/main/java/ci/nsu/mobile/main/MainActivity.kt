@@ -39,6 +39,8 @@ fun MyScreen(viewModel: CounterViewModel = viewModel()) {
         Button(onClick = { viewModel.reset() }) {
             Text("Сброс")
         }
-        Text(text = "Последние 5: ${uiState.history.joinToString()}")
+        Text(
+            text = "История:\n${uiState.history.take(10).joinToString(separator = "\n")}"
+        )
     }
 }
