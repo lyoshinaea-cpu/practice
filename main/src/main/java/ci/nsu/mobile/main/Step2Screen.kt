@@ -5,6 +5,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,10 +71,13 @@ fun Step2Screen(
 
         OutlinedTextField(
             value = topUp,
-            onValueChange = { topUp = it },
+            onValueChange =  { input ->
+                    topUp = input
+            },
             label = { Text("Ежемесячное пополнение (₽)") },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("0.0") }
+            placeholder = { Text("0.0") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
         )
 
         Spacer(modifier = Modifier.weight(1f))
