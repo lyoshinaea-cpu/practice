@@ -1,22 +1,23 @@
 package ci.nsu.mobile.data
 
-import android.content.Context
 import ci.nsu.mobile.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AuthRepository(private val context: Context) {
+// Наш репозиторий — прослойка между сетью и ViewModel. Он пинает ApiService в фоновом потоке
+class AuthRepository {
 
+    // Получаем наш готовый API-сервис
+    private val apiService = RetrofitClient.getApiService()
 
-    private val apiService = RetrofitClient.getApiService(context)
-
+    // Вход в систему
     suspend fun login(loginRequest: LoginRequest): Result<UserDto> = withContext(Dispatchers.IO) {
         try {
             val response = apiService.login(loginRequest)
             if (response.isSuccessful) {
                 val user = response.body()
                 if (user?.token != null) {
-                    TokenManager.saveToken(context, user.token)
+                    TokenManager.token = user.token
                     Result.success(user)
                 } else {
                     Result.failure(Exception("Токен не получен"))
@@ -29,7 +30,7 @@ class AuthRepository(private val context: Context) {
         }
     }
 
-    // Метод для регистрации
+    // Регистрация нового студента
     suspend fun register(registerRequest: RegisterRequest): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val response = apiService.register(registerRequest)
@@ -43,6 +44,7 @@ class AuthRepository(private val context: Context) {
         }
     }
 
+    // Скачиваем список групп для нашей красивой выпадашки на экране рега
     suspend fun getGroups(): Result<List<GroupDto>> = withContext(Dispatchers.IO) {
         try {
             val response = apiService.getGroups()
@@ -50,17 +52,16 @@ class AuthRepository(private val context: Context) {
                 android.util.Log.d("API_TEST", "Группы успешно получены: ${response.body()?.size}")
                 Result.success(response.body() ?: emptyList())
             } else {
-                // ЭТО ВЫВЕДЕТ КОД ОШИБКИ (например 401 или 404)
                 android.util.Log.e("API_TEST", "Ошибка сервера: ${response.code()} ${response.errorBody()?.string()}")
                 Result.failure(Exception("Код ошибки: ${response.code()}"))
             }
         } catch (e: Exception) {
-            // ЭТО ВЫВЕДЕТ ОШИБКУ ПОДКЛЮЧЕНИЯ (например Connection Refused)
             android.util.Log.e("API_TEST", "Критическая ошибка сети!", e)
             Result.failure(e)
         }
     }
 
+    // Получаем список юзеров для отображения на главном экране (MainScreen)
     suspend fun getUsers(): Result<List<UserDto>> = withContext(Dispatchers.IO) {
         try {
             val response = apiService.getUsers()

@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    // Убираем версию (version "2.0.0"), так как она подтянется из корневого проекта
     id("org.jetbrains.kotlin.plugin.compose")
 }
 

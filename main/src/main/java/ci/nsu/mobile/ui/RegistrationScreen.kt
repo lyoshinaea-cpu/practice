@@ -19,8 +19,6 @@ fun RegistrationScreen(viewModel: AuthViewModel, onBackToLogin: () -> Unit) {
         viewModel.loadGroups()
     }
 
-
-
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Регистрация") })
@@ -43,7 +41,7 @@ fun RegistrationScreen(viewModel: AuthViewModel, onBackToLogin: () -> Unit) {
                     label = { Text("Имя") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text, // Поддержка RU/EN
+                        keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     )
                 )
@@ -60,14 +58,14 @@ fun RegistrationScreen(viewModel: AuthViewModel, onBackToLogin: () -> Unit) {
                     )
                 )
 
-                // ДАТА РОЖДЕНИЯ
+                // ДАТА РОЖДЕНИЯ (Изменено под формат ДД.ММ.ГГГГ и тип Text для ввода точек)
                 OutlinedTextField(
                     value = viewModel.birthDate,
                     onValueChange = { viewModel.birthDate = it },
-                    label = { Text("Дата рождения (ГГГГ-ММ-ДД)") },
+                    label = { Text("Дата рождения (ДД.ММ.ГГГГ)") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number, // Только цифры и дефис
+                        keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Next
                     )
                 )
@@ -158,7 +156,7 @@ fun RegistrationScreen(viewModel: AuthViewModel, onBackToLogin: () -> Unit) {
                     label = { Text("Email") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email, // Добавляет @ на клавиатуру
+                        keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Next
                     )
                 )
@@ -170,7 +168,7 @@ fun RegistrationScreen(viewModel: AuthViewModel, onBackToLogin: () -> Unit) {
                     label = { Text("Телефон") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone, // Цифровая клавиатура
+                        keyboardType = KeyboardType.Phone,
                         imeAction = ImeAction.Done
                     )
                 )
@@ -204,12 +202,5 @@ fun RegistrationScreen(viewModel: AuthViewModel, onBackToLogin: () -> Unit) {
             }
         }
     }
-
-    // Если регистрация прошла успешно
-    if (viewModel.isSuccess) {
-        LaunchedEffect(Unit) {
-            onBackToLogin()
-            viewModel.isSuccess = false
-        }
-    }
 }
+
