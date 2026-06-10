@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+    implementation(libs.google.material)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
     // Тесты
     testImplementation(libs.junit)
