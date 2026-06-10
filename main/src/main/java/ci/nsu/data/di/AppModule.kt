@@ -8,9 +8,11 @@ import ci.nsu.data.repository.AuthRepository
 import ci.nsu.data.repository.AuthRepositoryImpl
 import ci.nsu.data.repository.DepositRepository
 import ci.nsu.data.repository.DepositRepositoryImpl
+import ci.nsu.ui.auth.AuthViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -41,9 +43,9 @@ val appModule = module {
             .build()
     }
 
-
     single {
         Retrofit.Builder()
+            // Вернули правильный адрес эмулятора Android (10.0.2.2) и порт 8080
             .baseUrl("http://10.0.2")
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
@@ -55,4 +57,7 @@ val appModule = module {
 
     // --- РЕПОЗИТОРИИ ---
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+
+    // --- VIEW MODELS ---
+    viewModel { AuthViewModel(get()) }
 }
