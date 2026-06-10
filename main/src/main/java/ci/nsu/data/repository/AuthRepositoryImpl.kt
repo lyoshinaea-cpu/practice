@@ -6,6 +6,7 @@ import ci.nsu.data.remote.dto.AuthResponse
 import ci.nsu.data.remote.dto.LoginRequest
 import ci.nsu.data.remote.dto.RegisterRequest
 import retrofit2.Response
+import ci.nsu.data.remote.dto.UserResponse
 
 class AuthRepositoryImpl(
     private val apiService: AuthApiService,
@@ -34,6 +35,10 @@ class AuthRepositoryImpl(
             }
         }
         return response
+    }
+
+    override suspend fun getUsers(): Response<List<UserResponse>> {
+        return apiService.getUsers()
     }
 
     override fun logout() {

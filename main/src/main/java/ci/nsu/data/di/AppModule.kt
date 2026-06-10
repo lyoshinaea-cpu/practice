@@ -46,8 +46,7 @@ val appModule = module {
 
     single {
         Retrofit.Builder()
-            // Исправлено: точный адрес эмулятора (10.0.2.2) и порт по умолчанию
-            .baseUrl("http://10.0.2")
+            .baseUrl("http://192.168.200.160:8080/api/")
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -62,4 +61,8 @@ val appModule = module {
     // --- VIEW MODELS ---
     viewModel { AuthViewModel(get()) }
     viewModel { DepositViewModel(get(), get()) } // Зарегистрировали фабрику калькулятора в Koin
+
+    viewModel { AuthViewModel(get()) }
+    viewModel { DepositViewModel(get(), get()) }
+    viewModel { ci.nsu.ui.users.UsersViewModel(get()) }
 }
