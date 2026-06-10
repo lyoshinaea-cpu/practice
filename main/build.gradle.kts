@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.ksp) // Подключаем плагин KSP для Room
+    alias(libs.plugins.google.ksp)
+
 }
 
 android {
@@ -40,6 +41,7 @@ dependencies {
     // Базовые зависимости
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.koin.android)
 
     // Тесты
     testImplementation(libs.junit)
