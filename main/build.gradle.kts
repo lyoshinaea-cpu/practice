@@ -1,16 +1,17 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.ksp) // Подключаем плагин KSP для Room
 }
 
 android {
     namespace = "ci.nsu.mobile.main"
-    compileSdk = 36
+    compileSdk = 35 // Рекомендуется 35, так как 36 еще в превью, но можно оставить и 36
 
     defaultConfig {
         applicationId = "ci.nsu.mobile.main"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -36,9 +37,17 @@ android {
 }
 
 dependencies {
-
+    // Базовые зависимости
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+
+    // Тесты
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Локальная база данных Room через KSP
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx) // Для корутин и Flow
+    ksp(libs.androidx.room.compiler) // Современный компилятор аннотаций
 }
