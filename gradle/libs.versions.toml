@@ -14,6 +14,7 @@ ksp = "2.0.21-1.0.26"
 koin = "3.5.3"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
+navigation = "2.7.7"
 
 
 [libraries]
@@ -39,7 +40,8 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
-
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
