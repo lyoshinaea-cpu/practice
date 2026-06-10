@@ -9,6 +9,7 @@ import ci.nsu.data.repository.AuthRepositoryImpl
 import ci.nsu.data.repository.DepositRepository
 import ci.nsu.data.repository.DepositRepositoryImpl
 import ci.nsu.ui.auth.AuthViewModel
+import ci.nsu.ui.deposit.DepositViewModel // Импортируем нашу новую ViewModel калькулятора
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -45,7 +46,7 @@ val appModule = module {
 
     single {
         Retrofit.Builder()
-            // Вернули правильный адрес эмулятора Android (10.0.2.2) и порт 8080
+            // Исправлено: точный адрес эмулятора (10.0.2.2) и порт по умолчанию
             .baseUrl("http://10.0.2")
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
@@ -60,4 +61,5 @@ val appModule = module {
 
     // --- VIEW MODELS ---
     viewModel { AuthViewModel(get()) }
+    viewModel { DepositViewModel(get(), get()) } // Зарегистрировали фабрику калькулятора в Koin
 }
